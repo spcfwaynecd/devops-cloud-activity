@@ -1,0 +1,32 @@
+
+name: DevOps CI Check
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Verify HTML File
+        run: |
+          echo "Checking application files..."
+          if [ -f "index.html" ]; then
+            echo "index.html found."
+          else
+            echo "index.html missing."
+            exit 1
+          fi
+
+      - name: Check System Status Feature
+        run: |
+          grep -q "System Status" index.html
+
+      - name: CI Successful
+        run: |
+          echo "Application passed automated CI checks."
